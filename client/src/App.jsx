@@ -10,11 +10,13 @@ import Profile from './pages/Profile.jsx';
 import NotFound from './pages/NotFound.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import { CartProvider } from './context/CartContext.jsx';
 
 function App() {
   return (
     <AuthProvider>
-      <Routes>
+      <CartProvider>
+        <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -27,7 +29,8 @@ function App() {
           </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
-      </Routes>
+        </Routes>
+      </CartProvider>
     </AuthProvider>
   )
 }

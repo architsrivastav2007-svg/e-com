@@ -1,9 +1,22 @@
 import { FaStar, FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useCart } from '../context/CartContext.jsx';
 
 const ProductCard = ({ product }) => {
+  const { addToCart, loading } = useCart();
+  const [actionError, setActionError] = useState('');
   const firstImage = product?.images?.[0];
   const inStock = Number(product?.stock) > 0;
+
+  const handleAddToCart = async () => {
+    try {
+      setActionError('');
+      await addToCart(product._id, 1);
+    } catch (error) {
+      setActionError(error?.response?.data?.message || error?.message || 'Failed to add item to cart');
+    }
+  };
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/70">
@@ -61,12 +74,15 @@ const ProductCard = ({ product }) => {
             </Link>
             <button
               type="button"
+              onClick={handleAddToCart}
+              disabled={!inStock || loading}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900"
             >
               <FaShoppingCart />
               Add to Cart
             </button>
           </div>
+          {actionError ? <p className="text-sm font-medium text-red-600">{actionError}</p> : null}
         </div>
       </div>
     </article>
