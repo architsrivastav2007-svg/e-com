@@ -64,7 +64,7 @@ const ProductDetails = () => {
           <div className="space-y-6">
             <ProductInfo product={product} />
             <ProductPrice price={product.price} rating={product.rating} stock={product.stock} />
-            <ProductActions stock={product.stock} quantity={quantity} setQuantity={setQuantity} />
+            <ProductActions productId={product._id} stock={product.stock} quantity={quantity} setQuantity={setQuantity} />
             <RelatedInfo product={product} />
           </div>
         </div>
