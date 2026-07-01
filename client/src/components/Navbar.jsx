@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaBars, FaTimes, FaShoppingBag } from 'react-icons/fa';
+import { FaBars, FaHeart, FaShoppingBag, FaTimes } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useCart } from '../context/CartContext.jsx';
+import { useWishlist } from '../context/WishlistContext.jsx';
 
 const linkClass = ({ isActive }) =>
   `rounded-full px-4 py-2 text-sm font-medium transition ${
@@ -13,6 +14,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const { totalItems } = useCart();
+  const { itemCount } = useWishlist();
 
   const handleToggle = () => setMenuOpen((current) => !current);
   const handleClose = () => setMenuOpen(false);
@@ -45,6 +47,16 @@ const Navbar = () => {
             <>
               <NavLink to="/cart" className={linkClass}>
                 Cart <span className="ml-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">{totalItems}</span>
+              </NavLink>
+              <NavLink to="/wishlist" className={linkClass}>
+                <span className="inline-flex items-center gap-2">
+                  <FaHeart />
+                  Wishlist
+                  <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">{itemCount}</span>
+                </span>
+              </NavLink>
+              <NavLink to="/my-orders" className={linkClass}>
+                My Orders
               </NavLink>
               <NavLink to="/profile" className={linkClass}>
                 {user?.name || 'Profile'}
@@ -93,6 +105,16 @@ const Navbar = () => {
               <>
                 <NavLink to="/cart" className={linkClass} onClick={handleClose}>
                   Cart <span className="ml-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">{totalItems}</span>
+                </NavLink>
+                <NavLink to="/wishlist" className={linkClass} onClick={handleClose}>
+                  <span className="inline-flex items-center gap-2">
+                    <FaHeart />
+                    Wishlist
+                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">{itemCount}</span>
+                  </span>
+                </NavLink>
+                <NavLink to="/my-orders" className={linkClass} onClick={handleClose}>
+                  My Orders
                 </NavLink>
                 <NavLink to="/profile" className={linkClass} onClick={handleClose}>
                   {user?.name || 'Profile'}
