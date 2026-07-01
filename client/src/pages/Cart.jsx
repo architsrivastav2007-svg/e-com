@@ -150,12 +150,12 @@ const Cart = () => {
                 >
                   Continue Shopping
                 </Link>
-                <button
-                  type="button"
+                <Link
+                  to="/checkout"
                   className="inline-flex w-full items-center justify-center rounded-full bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
                 >
                   Checkout
-                </button>
+                </Link>
               </div>
             </div>
           </aside>

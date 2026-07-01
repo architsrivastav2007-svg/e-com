@@ -1,13 +1,19 @@
-import { FaCartShopping } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
+import { FaCartShopping, FaHeart, FaRegHeart } from 'react-icons/fa6';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
+import { useWishlist } from '../context/WishlistContext.jsx';
 import { useState } from 'react';
 
-const ProductActions = ({ productId, stock, quantity, setQuantity, onBack }) => {
+const ProductActions = ({ productId, stock, quantity, setQuantity, onBack, backToProductsPath = '/products' }) => {
   const { addToCart, loading } = useCart();
+  const { isAuthenticated } = useAuth();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const navigate = useNavigate();
   const [actionError, setActionError] = useState('');
   const inStock = Number(stock) > 0;
   const quantityOptions = Array.from({ length: Number(stock) || 0 }, (_, index) => index + 1);
+  const inWishlist = isInWishlist(productId);
 
   const handleAddToCart = async () => {
     try {
@@ -15,6 +21,25 @@ const ProductActions = ({ productId, stock, quantity, setQuantity, onBack }) => 
       await addToCart(productId, quantity);
     } catch (error) {
       setActionError(error?.response?.data?.message || error?.message || 'Failed to add item to cart');
+    }
+  };
+
+  const handleWishlistToggle = async () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      setActionError('');
+
+      if (inWishlist) {
+        await removeFromWishlist(productId);
+      } else {
+        await addToWishlist(productId);
+      }
+    } catch (error) {
+      setActionError(error?.response?.data?.message || error?.message || 'Failed to update wishlist');
     }
   };
 
@@ -57,13 +82,25 @@ const ProductActions = ({ productId, stock, quantity, setQuantity, onBack }) => 
           {loading ? 'Adding...' : 'Add to Cart'}
         </button>
         <Link
-          to="/products"
+          to={backToProductsPath}
           onClick={onBack}
           className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900"
         >
           Back to Products
         </Link>
       </div>
+      <button
+        type="button"
+        onClick={handleWishlistToggle}
+        className={`mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold transition ${
+          inWishlist
+            ? 'border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100'
+            : 'border-slate-200 bg-white text-slate-700 hover:border-slate-900 hover:text-slate-900'
+        }`}
+      >
+        {inWishlist ? <FaHeart /> : <FaRegHeart />}
+        {inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
+      </button>
       {actionError ? <p className="mt-4 text-sm font-medium text-red-600">{actionError}</p> : null}
     </div>
   );
