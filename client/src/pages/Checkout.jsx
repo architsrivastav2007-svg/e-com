@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import InputField from '../components/InputField.jsx';
-import Button from '../components/Button.jsx';
 import ErrorMessage from '../components/ErrorMessage.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useCart } from '../context/CartContext.jsx';
@@ -82,26 +81,40 @@ const Checkout = () => {
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mb-8 space-y-3">
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">Checkout</p>
-        <h1 className="text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">Shipping details</h1>
-        <p className="max-w-2xl text-slate-600">Confirm your delivery information and place your Cash On Delivery order.</p>
+    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-8">
+      
+      {/* Heading Section */}
+      <div className="space-y-3 px-2">
+        <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#d4b26f]">Checkout</p>
+        <h1 className="font-luxury-sans text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Shipping Details</h1>
+        <p className="max-w-2xl text-xs md:text-sm text-neutral-400 font-medium">
+          Confirm your delivery information and place your Cash On Delivery order.
+        </p>
       </div>
 
       {(error || cartError) ? <ErrorMessage message={error || cartError} /> : null}
+
+      {/* Empty State */}
       {cartItems.length === 0 && !cartLoading ? (
-        <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm">
-          <h2 className="text-2xl font-black tracking-tight text-slate-950">Your cart is empty</h2>
-          <Link to="/products" className="mt-6 inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
-            Continue Shopping
-          </Link>
+        <div className="rounded-[2.5rem] border border-neutral-900 bg-[#0b0b0b] px-6 py-20 text-center shadow-2xl space-y-4 max-w-3xl mx-auto">
+          <h2 className="text-xl font-bold tracking-tight text-white">Your cart is empty.</h2>
+          <div className="pt-2">
+            <Link 
+              to="/products" 
+              className="inline-flex rounded-full bg-[#d4b26f] text-black hover:bg-[#c3a164] px-6 py-3 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105 duration-300"
+            >
+              Continue Shopping
+            </Link>
+          </div>
         </div>
       ) : null}
 
+      {/* Checkout Grid Content */}
       {cartItems.length > 0 ? (
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.7fr)] lg:items-start">
-          <form onSubmit={handlePlaceOrder} className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-lg shadow-slate-200/60 sm:p-8">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.7fr)] lg:items-start px-2">
+          
+          {/* Shipping Form */}
+          <form onSubmit={handlePlaceOrder} className="rounded-[2.5rem] border border-neutral-900 bg-[#0b0b0b] p-6 shadow-2xl sm:p-8 space-y-6">
             <div className="grid gap-5 sm:grid-cols-2">
               <InputField label="Full Name" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Full name" />
               <InputField label="Phone Number" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Phone number" />
@@ -112,44 +125,53 @@ const Checkout = () => {
               <InputField label="Country" name="country" value={formData.country} onChange={handleChange} placeholder="Country" />
             </div>
 
-            <div className="mt-6 rounded-3xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">Payment Method</p>
-              <div className="mt-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900">
+            {/* Payment Method Option */}
+            <div className="rounded-2xl border border-neutral-900/60 bg-neutral-950 p-5 space-y-2">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Payment Method</p>
+              <div className="rounded-xl border border-neutral-900 bg-[#0b0b0b] px-4 py-3 text-xs font-bold text-white">
                 Cash On Delivery
               </div>
             </div>
 
-            <Button type="submit" loading={loading} className="mt-6 w-full">
-              Place Order
-            </Button>
+            {/* Place Order CTA */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full text-center inline-flex items-center justify-center rounded-full bg-[#d4b26f] text-xs font-bold text-black uppercase tracking-wider transition hover:bg-[#c3a164] py-3.5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            >
+              {loading ? 'Processing Order...' : 'Place Order'}
+            </button>
           </form>
 
-          <aside className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-lg shadow-slate-200/60">
-            <div className="space-y-4">
+          {/* Checkout Totals Aside panel */}
+          <aside className="rounded-[2.5rem] border border-neutral-900 bg-[#0b0b0b] p-6 shadow-2xl space-y-5">
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#d4b26f]">Order Summary</span>
+              <span className="rounded-full bg-neutral-950 border border-neutral-900 px-3 py-1 text-xs font-semibold text-white">
+                {totalItems} {totalItems === 1 ? 'item' : 'items'}
+              </span>
+            </div>
+
+            <div className="space-y-3.5 rounded-2xl bg-neutral-950 border border-neutral-900/40 p-4.5 text-xs text-neutral-400 font-medium">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">Order Summary</span>
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">{totalItems} items</span>
+                <span>Subtotal</span>
+                <span className="font-bold text-white">${Number(totalPrice || 0).toFixed(2)}</span>
               </div>
-              <div className="space-y-3 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
-                <div className="flex items-center justify-between">
-                  <span>Subtotal</span>
-                  <span className="font-semibold text-slate-900">${Number(totalPrice || 0).toFixed(2)}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Shipping Cost</span>
-                  <span className="font-semibold text-slate-900">${totals.shippingCost.toFixed(2)}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Tax</span>
-                  <span className="font-semibold text-slate-900">${totals.tax.toFixed(2)}</span>
-                </div>
-                <div className="flex items-center justify-between border-t border-slate-200 pt-3 text-base">
-                  <span className="font-semibold text-slate-900">Final Total</span>
-                  <span className="font-black text-slate-950">${totals.total.toFixed(2)}</span>
-                </div>
+              <div className="flex items-center justify-between">
+                <span>Shipping Cost</span>
+                <span className="font-bold text-white">${totals.shippingCost.toFixed(2)}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Tax (10%)</span>
+                <span className="font-bold text-white">${totals.tax.toFixed(2)}</span>
+              </div>
+              <div className="flex items-center justify-between border-t border-neutral-900 pt-3.5 text-sm font-semibold">
+                <span className="text-neutral-300">Final Total</span>
+                <span className="text-xl font-black text-[#d4b26f]">${totals.total.toFixed(2)}</span>
               </div>
             </div>
           </aside>
+
         </div>
       ) : null}
     </section>
