@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { getProfile, login as loginRequest, register as registerRequest } from '../services/authService.js';
+import { login as loginRequest, register as registerRequest } from '../services/authService.js';
 import { getMyProfile as getUserProfile } from '../services/userService.js';
 
 const TOKEN_KEY = 'authToken';
@@ -44,7 +44,7 @@ const AuthProvider = ({ children }) => {
       const data = await getUserProfile();
       const profileUser = data?.user || null;
       persistAuth(storedToken, profileUser);
-    } catch (error) {
+    } catch {
       persistAuth(null, null);
     } finally {
       setLoading(false);

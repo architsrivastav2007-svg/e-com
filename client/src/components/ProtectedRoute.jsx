@@ -2,8 +2,8 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
-const ProtectedRoute = () => {
-  const { isAuthenticated, loading } = useAuth();
+const ProtectedRoute = ({ allowedRoles, redirectTo = '/login' }) => {
+  const { isAuthenticated, loading, user } = useAuth();
   const location = useLocation();
 
   if (loading) {
@@ -11,7 +11,11 @@ const ProtectedRoute = () => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    return <Navigate to={redirectTo} replace state={{ from: location }} />;
+  }
+
+  if (allowedRoles?.length && !allowedRoles.includes(user?.role)) {
+    return <Navigate to={redirectTo} replace />;
   }
 
   return <Outlet />;

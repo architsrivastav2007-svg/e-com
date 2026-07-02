@@ -17,6 +17,12 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { CartProvider } from './context/CartContext.jsx';
 import { WishlistProvider } from './context/WishlistContext.jsx';
+import AdminLayout from './layouts/AdminLayout.jsx';
+import AdminDashboard from './pages/admin/Dashboard.jsx';
+import AdminProducts from './pages/admin/Products.jsx';
+import AdminOrders from './pages/admin/Orders.jsx';
+import AdminUsers from './pages/admin/Users.jsx';
+import { Navigate } from 'react-router-dom';
 
 function App() {
   return (
@@ -24,10 +30,11 @@ function App() {
       <CartProvider>
         <WishlistProvider>
           <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route element={<MainLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:id" element={<ProductDetails />} />
               <Route element={<ProtectedRoute />}>
@@ -40,6 +47,15 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
               </Route>
               <Route path="*" element={<NotFound />} />
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={["admin"]} redirectTo="/" />}>
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<Navigate to="dashboard" replace />} />
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="products" element={<AdminProducts />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="users" element={<AdminUsers />} />
+              </Route>
             </Route>
           </Routes>
         </WishlistProvider>

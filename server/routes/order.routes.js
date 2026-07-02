@@ -7,6 +7,7 @@ import {
   updateOrderStatus,
 } from '../controllers/orderController.js';
 import protect from '../middleware/authMiddleware.js';
+import requireAdmin from '../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
@@ -16,6 +17,6 @@ router.post('/', placeOrder);
 router.get('/my-orders', getMyOrders);
 router.get('/:id', getOrderById);
 router.put('/:id/cancel', cancelOrder);
-router.put('/:id/status', updateOrderStatus);
+router.put('/:id/status', requireAdmin, updateOrderStatus);
 
 export default router;
