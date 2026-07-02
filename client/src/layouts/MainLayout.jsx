@@ -10,7 +10,7 @@ const MainLayout = () => {
   const { successMessage: wishlistSuccessMessage, error: wishlistError } = useWishlist();
 
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900">
+    <div className="flex min-h-screen flex-col bg-[#050505] text-neutral-100 selection:bg-[#d4b26f] selection:text-black">
       <Navbar />
       <ToastMessage message={successMessage} type="success" />
       <ToastMessage message={error} type="error" />

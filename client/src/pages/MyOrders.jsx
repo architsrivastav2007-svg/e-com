@@ -28,42 +28,57 @@ const MyOrders = () => {
   }, []);
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mb-8 space-y-3">
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">Orders</p>
-        <h1 className="text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">My Orders</h1>
+    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-8">
+      
+      {/* Heading Section */}
+      <div className="space-y-3 px-2">
+        <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#d4b26f]">Orders</p>
+        <h1 className="font-luxury-sans text-4xl font-extrabold tracking-tight text-white sm:text-5xl">My Orders</h1>
       </div>
 
       {loading ? <LoadingSpinner /> : null}
       {!loading && error ? <ErrorMessage message={error} /> : null}
 
+      {/* Empty State */}
       {!loading && !error && orders.length === 0 ? (
-        <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm">
-          <h2 className="text-2xl font-black tracking-tight text-slate-950">No Orders Found</h2>
-          <p className="mt-2 text-slate-600">You have not placed any orders yet.</p>
-          <Link to="/products" className="mt-6 inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
-            Continue Shopping
-          </Link>
+        <div className="rounded-[2.5rem] border border-neutral-900 bg-[#0b0b0b] px-6 py-20 text-center shadow-2xl space-y-4 max-w-3xl mx-auto">
+          <h2 className="text-xl font-bold tracking-tight text-white">No Orders Found</h2>
+          <p className="text-xs text-neutral-400 max-w-sm mx-auto">You have not placed any orders yet.</p>
+          <div className="pt-2">
+            <Link 
+              to="/products" 
+              className="inline-flex rounded-full bg-[#d4b26f] text-black hover:bg-[#c3a164] px-6 py-3 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105 duration-300"
+            >
+              Continue Shopping
+            </Link>
+          </div>
         </div>
       ) : null}
 
+      {/* Order List */}
       {!loading && !error && orders.length > 0 ? (
-        <div className="grid gap-4">
+        <div className="grid gap-4 px-2">
           {orders.map((order) => (
-            <article key={order._id} className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+            <article key={order._id} className="rounded-[2rem] border border-neutral-900 bg-[#0b0b0b] p-6 shadow-md transition hover:border-neutral-800">
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div className="space-y-2">
                   <div className="flex flex-wrap items-center gap-3">
-                    <h2 className="text-xl font-bold tracking-tight text-slate-950">Order #{order._id.slice(-6)}</h2>
+                    <h2 className="text-lg font-bold text-white">Order #{order._id.slice(-6).toUpperCase()}</h2>
                     <OrderStatusBadge status={order.orderStatus} />
                   </div>
-                  <p className="text-sm text-slate-600">Placed on {new Date(order.createdAt).toLocaleDateString()}</p>
-                  <p className="text-sm text-slate-600">{order.items.length} items</p>
+                  <p className="text-xs text-neutral-400">Placed on {new Date(order.createdAt).toLocaleDateString()}</p>
+                  <p className="text-xs text-neutral-400 font-semibold">{order.items.length} {order.items.length === 1 ? 'item' : 'items'}</p>
                 </div>
-                <div className="text-left md:text-right">
-                  <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Total</p>
-                  <p className="text-2xl font-black text-slate-950">${Number(order.totalPrice || 0).toFixed(2)}</p>
-                  <Link to={`/orders/${order._id}`} className="mt-3 inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
+                
+                <div className="flex flex-col gap-3 items-start md:items-end">
+                  <div>
+                    <p className="text-[9px] uppercase tracking-[0.25em] text-neutral-500 font-bold">Total Price</p>
+                    <p className="text-xl font-black text-[#d4b26f] mt-0.5">${Number(order.totalPrice || 0).toFixed(2)}</p>
+                  </div>
+                  <Link 
+                    to={`/orders/${order._id}`} 
+                    className="inline-flex rounded-full bg-neutral-900 border border-neutral-800 text-xs font-bold text-white transition hover:bg-neutral-800 px-5 py-2.5"
+                  >
                     View Details
                   </Link>
                 </div>
