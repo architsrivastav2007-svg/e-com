@@ -26,7 +26,7 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <NavLink to="/" className="flex items-center gap-3 text-slate-900" onClick={handleClose}>
+          <NavLink to="/home" className="flex items-center gap-3 text-slate-900" onClick={handleClose}>
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-lg shadow-slate-900/20">
             <FaShoppingBag />
           </span>
@@ -37,7 +37,7 @@ const Navbar = () => {
         </NavLink>
 
         <nav className="hidden items-center gap-2 md:flex">
-          <NavLink to="/" className={linkClass}>
+          <NavLink to="/home" className={linkClass}>
             Home
           </NavLink>
           <NavLink to="/products" className={linkClass}>
@@ -61,6 +61,11 @@ const Navbar = () => {
               <NavLink to="/profile" className={linkClass}>
                 {user?.name || 'Profile'}
               </NavLink>
+              {user?.role === 'admin' ? (
+                <NavLink to="/admin/dashboard" className={linkClass}>
+                  Admin
+                </NavLink>
+              ) : null}
               <button
                 type="button"
                 onClick={handleLogout}
@@ -95,7 +100,7 @@ const Navbar = () => {
       {menuOpen ? (
         <div className="border-t border-slate-200 bg-white px-4 pb-4 md:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-2 pt-4">
-            <NavLink to="/" className={linkClass} onClick={handleClose}>
+            <NavLink to="/home" className={linkClass} onClick={handleClose}>
               Home
             </NavLink>
             <NavLink to="/products" className={linkClass} onClick={handleClose}>
@@ -119,6 +124,11 @@ const Navbar = () => {
                 <NavLink to="/profile" className={linkClass} onClick={handleClose}>
                   {user?.name || 'Profile'}
                 </NavLink>
+                {user?.role === 'admin' ? (
+                  <NavLink to="/admin/dashboard" className={linkClass} onClick={handleClose}>
+                    Admin
+                  </NavLink>
+                ) : null}
                 <button
                   type="button"
                   onClick={handleLogout}

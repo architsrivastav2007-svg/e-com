@@ -3,6 +3,28 @@ import Product from '../models/Product.js';
 const isValidPrice = (price) => Number(price) > 0;
 const isValidStock = (stock) => Number(stock) >= 0;
 
+const normalizeImages = (images) => {
+  if (images === undefined) {
+    return undefined;
+  }
+
+  const imageList = Array.isArray(images) ? images : [images];
+
+  return imageList
+    .map((image) => {
+      if (typeof image === 'string') {
+        return image.trim();
+      }
+
+      if (image && typeof image === 'object' && typeof image.url === 'string') {
+        return image.url.trim();
+      }
+
+      return '';
+    })
+    .filter(Boolean);
+};
+
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const parsePositiveInteger = (value, fallback) => {
@@ -26,6 +48,7 @@ const parseNumber = (value) => {
 const createProduct = async (req, res) => {
   try {
     const { title, description, price, category, brand, stock, images, rating, numReviews, featured } = req.body;
+    const normalizedImages = normalizeImages(images);
 
     if (!title || !description || price === undefined || !category || stock === undefined) {
       return res.status(400).json({
@@ -55,7 +78,7 @@ const createProduct = async (req, res) => {
       category,
       brand,
       stock,
-      images,
+      images: normalizedImages ?? [],
       rating,
       numReviews,
       featured,
@@ -236,7 +259,7 @@ const getProductById = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { price, stock } = req.body;
+    const { price, stock, images } = req.body;
 
     if (price !== undefined && !isValidPrice(price)) {
       return res.status(400).json({
@@ -252,7 +275,13 @@ const updateProduct = async (req, res) => {
       });
     }
 
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    const updatePayload = { ...req.body };
+
+    if (images !== undefined) {
+      updatePayload.images = normalizeImages(images);
+    }
+
+    const product = await Product.findByIdAndUpdate(req.params.id, updatePayload, {
       new: true,
       runValidators: true,
     });

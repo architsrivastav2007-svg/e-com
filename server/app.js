@@ -8,6 +8,7 @@ import recommendationRoutes from './routes/recommendation.routes.js';
 import orderRoutes from './routes/order.routes.js';
 import wishlistRoutes from './routes/wishlist.routes.js';
 import userRoutes from './routes/user.routes.js';
+import adminRoutes from './routes/admin.routes.js';
 import notFound from './middleware/notFound.js';
 import errorHandler from './middleware/errorHandler.js';
 
@@ -24,6 +25,7 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
