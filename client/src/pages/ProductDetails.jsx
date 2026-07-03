@@ -122,10 +122,10 @@ const ProductDetails = () => {
 
           <div className="space-y-6">
             <ProductInfo product={product} />
-            <div className="space-y-6 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-lg shadow-slate-200/60">
+            <div className="space-y-6 rounded-[2rem] border border-neutral-900 bg-[#0b0b0b] p-6 shadow-2xl">
               <div className="space-y-2">
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">Recommended For You</p>
-                <h2 className="text-2xl font-black tracking-tight text-slate-950">Discover products tailored to this item</h2>
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#d4b26f]">Recommended For You</p>
+                <h2 className="text-2xl font-bold tracking-tight text-white font-luxury-sans">Discover products tailored to this item</h2>
               </div>
 
               <div className="space-y-8">
@@ -148,7 +148,7 @@ const ProductDetails = () => {
                   error={recommendationsError}
                 />
                 {!recommendationsLoading && !recommendationsError && !hasRecommendations ? (
-                  <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center text-slate-500">
+                  <div className="rounded-3xl border border-dashed border-neutral-800 bg-neutral-950 px-6 py-10 text-center text-neutral-400">
                     No recommendations available right now.
                   </div>
                 ) : null}

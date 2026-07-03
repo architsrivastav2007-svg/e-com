@@ -54,12 +54,12 @@ const Register = () => {
     <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-2 lg:items-center">
         <div className="space-y-4">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">Create account</p>
-          <h1 className="text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">Register for faster checkout</h1>
-          <p className="max-w-xl text-slate-600">Create your account to save orders, use your cart across sessions, and personalize shopping.</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#d4b26f]">Create account</p>
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl font-luxury-sans">Register for faster checkout</h1>
+          <p className="max-w-xl text-neutral-400">Create your account to save orders, use your cart across sessions, and personalize shopping.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl shadow-slate-200/60">
+        <form onSubmit={handleSubmit} className="rounded-[2rem] border border-neutral-900 bg-[#0b0b0b]/60 p-8 shadow-2xl backdrop-blur-md">
           <div className="space-y-5">
             <InputField label="Name" name="name" value={formData.name} onChange={handleChange} placeholder="Your name" error={errors.name} />
             <InputField label="Email" type="email" name="email" value={formData.email} onChange={handleChange} placeholder="you@example.com" error={errors.email} />
@@ -77,9 +77,9 @@ const Register = () => {
               Register
             </Button>
           </div>
-          <p className="mt-5 text-center text-sm text-slate-600">
+          <p className="mt-5 text-center text-sm text-neutral-400">
             Already have an account?{' '}
-            <Link to="/login" className="font-semibold text-slate-900 hover:underline">
+            <Link to="/login" className="font-semibold text-[#d4b26f] hover:underline">
               Login
             </Link>
           </p>

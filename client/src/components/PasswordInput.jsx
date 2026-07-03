@@ -6,25 +6,27 @@ const PasswordInput = ({ label, error, className = '', ...props }) => {
 
   return (
     <label className={`block ${className}`}>
-      <span className="mb-2 block text-sm font-semibold text-slate-700">{label}</span>
+      <span className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-neutral-400">{label}</span>
       <div className="relative">
         <input
           {...props}
           type={visible ? 'text' : 'password'}
-          className={`w-full rounded-2xl border px-4 py-3 pr-12 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-900 ${
-            error ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'
+          className={`w-full rounded-xl border px-4 py-3 pr-12 text-xs text-white outline-none transition placeholder:text-neutral-600 focus:border-[#d4b26f]/60 ${
+            error 
+              ? 'border-red-900/40 bg-red-950/20' 
+              : 'border-neutral-900 bg-neutral-950'
           }`}
         />
         <button
           type="button"
           onClick={() => setVisible((current) => !current)}
-          className="absolute inset-y-0 right-0 flex items-center px-4 text-slate-500 transition hover:text-slate-900"
+          className="absolute inset-y-0 right-0 flex items-center px-4 text-neutral-500 transition hover:text-white"
           aria-label={visible ? 'Hide password' : 'Show password'}
         >
           {visible ? <FaEyeSlash /> : <FaEye />}
         </button>
       </div>
-      {error ? <span className="mt-2 block text-sm font-medium text-red-600">{error}</span> : null}
+      {error ? <span className="mt-2 block text-xs font-semibold text-red-400">{error}</span> : null}
     </label>
   );
 };

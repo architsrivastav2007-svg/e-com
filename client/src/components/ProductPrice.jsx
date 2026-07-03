@@ -2,7 +2,7 @@ const ProductPrice = ({ price, rating, stock }) => {
   const inStock = Number(stock) > 0;
 
   return (
-    <div className="rounded-3xl border border-slate-200 bg-slate-950 p-6 text-white shadow-xl shadow-slate-200/60">
+    <div className="rounded-3xl border border-neutral-900 bg-[#0b0b0b] p-6 text-white shadow-2xl">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Price</p>
@@ -17,7 +17,7 @@ const ProductPrice = ({ price, rating, stock }) => {
         </span>
       </div>
 
-      <div className="mt-5 flex items-center gap-3 text-sm text-slate-200">
+      <div className="mt-5 flex items-center gap-3 text-sm text-neutral-300">
         <span className="font-semibold text-white">Rating:</span>
         <span>{Number(rating ?? 0).toFixed(1)} / 5</span>
       </div>
