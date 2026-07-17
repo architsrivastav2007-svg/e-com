@@ -86,9 +86,13 @@ const uploadImages = async (req, res) => {
       images,
     });
   } catch (error) {
+    const message = /must supply api_key/i.test(error.message)
+      ? 'Cloudinary API key missing. Set CLOUDINARY_API_KEY in server .env'
+      : error.message;
+
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message,
     });
   }
 };
@@ -115,9 +119,13 @@ const deleteImage = async (req, res) => {
       result: result.result,
     });
   } catch (error) {
+    const message = /must supply api_key/i.test(error.message)
+      ? 'Cloudinary API key missing. Set CLOUDINARY_API_KEY in server .env'
+      : error.message;
+
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message,
     });
   }
 };
